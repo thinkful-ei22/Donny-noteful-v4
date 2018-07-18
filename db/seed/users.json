@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "333333333333333333333300",
+    "fullname": "Bob User",
+    "username": "bobuser",
+    "password": "$2a$10$CNjUAvnmmc7SCmcEWbFluedfZRa4Bm05S3YnrTCOT12mOXp.YUmLW"
+  },
+  {
+    "_id": "333333333333333333333301",
+    "fullname": "Pat User",
+    "username": "patuser",
+    "password": "$2a$10$CNjUAvnmmc7SCmcEWbFluedfZRa4Bm05S3YnrTCOT12mOXp.YUmLW"
+  },
+  {
+    "_id": "333333333333333333333302",
+    "fullname": "Jane User",
+    "username": "janeuser",
+    "password": "$2a$10$CNjUAvnmmc7SCmcEWbFluedfZRa4Bm05S3YnrTCOT12mOXp.YUmLW"
+  }
+]
