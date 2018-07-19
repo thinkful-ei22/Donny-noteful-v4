@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
     return res.status(422).json({
       code: 422,
       reason: 'ValidationError',
-      message: 'Incorrect field type: expected string',
+      message: 'Field is not a string',
       location: nonStringField
     });
   }
