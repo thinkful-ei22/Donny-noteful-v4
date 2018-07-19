@@ -4,16 +4,26 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
 const express = require('express');
+const jwt = require('jsonwebtoken');
 
 const app = require('../server');
 const Folder = require('../models/folder');
+const User = require('../models/user');
+
+
 const seedFolders = require('../db/seed/folders');
+const seedUsers = require('../db/seedd/users');
 const { TEST_MONGODB_URI } = require('../config');
+const {JWT_SECRET} = require('../config');
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe('Noteful API - Folders', function () {
+
+  // Define a token and user so it is accessible in the tests
+  let token;
+  let user;
 
   before(function () {
     return mongoose.connect(TEST_MONGODB_URI)
@@ -22,9 +32,14 @@ describe('Noteful API - Folders', function () {
 
   beforeEach(function () {
     return Promise.all([
+      User.insertMany(seedUsers),
       Folder.insertMany(seedFolders),
       Folder.createIndexes()
-    ]);
+    ])
+      .then(([users]) => {
+        user = users[0];
+        token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
+      });
   });
 
   afterEach(function () {
