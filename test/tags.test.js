@@ -4,16 +4,32 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
 const express = require('express');
-
+const jwt = require('jsonwebtoken');
 const app = require('../server');
+
+
 const Tag = require('../models/tag');
+const Folder = require('../models/folder');
+const User = require('../models/user');
+
+
+
+
+const seedNotes = require('../db/seed/notes');
+const seedFolders = require('../db/seed/folders');
 const seedTags = require('../db/seed/tags');
+const seedUsers = require('../db/seed/users');
+
 const { TEST_MONGODB_URI } = require('../config');
+const {JWT_SECRET} = require('../config');
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe('Noteful API - Tags', function () {
+
+  let user;
+  let token;
 
   before(function () {
     return mongoose.connect(TEST_MONGODB_URI)
@@ -22,9 +38,14 @@ describe('Noteful API - Tags', function () {
 
   beforeEach(function () {
     return Promise.all([
-      Tag.insertMany(seedTags),
-      Tag.createIndexes()
-    ]);
+      User.insertMany(seedUsers),
+      Folder.insertMany(seedFolders),
+      Folder.createIndexes()
+    ])
+      .then(([users]) => {
+        user = users[0];
+        token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
+      });
   });
 
   afterEach(function () {

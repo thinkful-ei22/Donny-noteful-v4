@@ -52,7 +52,7 @@ describe('Noteful API - Folders', function () {
 
   describe('GET /api/folders', function () {
 
-    it.only('should return the correct number of folders', function () {
+    it('should return the correct number of folders', function () {
       const dbPromise = Folder.find( { userId: user.id });
       const apiPromise = chai.request(app)
         .get('/api/folders')
@@ -67,7 +67,7 @@ describe('Noteful API - Folders', function () {
         });
     });
 
-    it.only('should return a list with the correct fields and values', function () {
+    it('should return a list with the correct fields and values', function () {
 
       const dbPromise = Folder.find({ userId: user.id }); // <<== Add filter on User Id
       const apiPromise = chai.request(app)
@@ -90,7 +90,7 @@ describe('Noteful API - Folders', function () {
 
   describe('GET /api/folders/:id', function () {
    
-    it.only('should return correct folder', function () {
+    it('should return correct folder', function () {
       let data;
       return Folder.findOne({userId: user.id})
         .then (_data => {
@@ -113,7 +113,7 @@ describe('Noteful API - Folders', function () {
         });
     });
 
-    it.only('should respond with a 400 for an invalid id', function () {
+    it('should respond with a 400 for an invalid id', function () {
       return chai.request(app)
         .get('/api/folders/NOT-A-VALID-ID')
         .set('Authorization', `Bearer ${token}`) // <<== Add Authorization header
@@ -123,7 +123,7 @@ describe('Noteful API - Folders', function () {
         });
     });
 
-    it.only('should respond with a 404 for an ID that does not exist', function () {
+    it('should respond with a 404 for an ID that does not exist', function () {
       // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
       return chai.request(app)
         .get('/api/folders/DOESNOTEXIST')
@@ -137,7 +137,7 @@ describe('Noteful API - Folders', function () {
 
   describe('POST /api/folders', function () {
 
-    it.only('should create and return a new item when provided valid data', function () {
+    it('should create and return a new item when provided valid data', function () {
       const newItem = { name: 'newFolder' };
       let body;
       return chai.request(app)
@@ -161,7 +161,7 @@ describe('Noteful API - Folders', function () {
         });
     });
 
-    it.only('should return an error when missing "name" field', function () {
+    it('should return an error when missing "name" field', function () {
       const newItem = { 'foo': 'bar' };
       return chai.request(app)
         .post('/api/folders')
@@ -175,7 +175,7 @@ describe('Noteful API - Folders', function () {
         });
     });
 
-    it.only('should return an error when given a duplicate name', function () {
+    it('should return an error when given a duplicate name', function () {
       return Folder.findOne()
         .then( data => {
           const newItem = { name: data.name };
@@ -195,7 +195,7 @@ describe('Noteful API - Folders', function () {
 
   describe('PUT /api/folders/:id', function () {
 
-    it.only('should update the folder', function () {
+    it('should update the folder', function () {
       const updateItem = { name: 'Updated Name' };
       let data;
       return Folder.findOne()
@@ -220,7 +220,7 @@ describe('Noteful API - Folders', function () {
     });
 
 
-    it.only('should respond with a 400 for an invalid id', function () {
+    it('should respond with a 400 for an invalid id', function () {
       const updateItem = { name: 'Blah' };
       return chai.request(app)
         .put('/api/folders/NOT-A-VALID-ID')
@@ -232,7 +232,7 @@ describe('Noteful API - Folders', function () {
         });
     });
 
-    it.only('should respond with a 404 for an id that does not exist', function () {
+    it('should respond with a 404 for an id that does not exist', function () {
       const updateItem = { name: 'Blah' };
       // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
       return chai.request(app)
@@ -244,7 +244,7 @@ describe('Noteful API - Folders', function () {
         });
     });
 
-    it.only('should return an error when missing "name" field', function () {
+    it('should return an error when missing "name" field', function () {
       const updateItem = {};
       let data;
       return Folder.findOne()
@@ -263,7 +263,7 @@ describe('Noteful API - Folders', function () {
         });
     });
 
-    it.only('should return an error when given a duplicate name', function () {
+    it('should return an error when given a duplicate name', function () {
       return Folder.find().limit(2)
         .then(results => {
           const [item1, item2] = results;
@@ -285,7 +285,7 @@ describe('Noteful API - Folders', function () {
 
   describe('DELETE /api/folders/:id', function () {
 
-    it.only('should delete an existing document and respond with 204', function () {
+    it('should delete an existing document and respond with 204', function () {
       let data;
       return Folder.findOne()
         .then(_data => {
@@ -304,7 +304,7 @@ describe('Noteful API - Folders', function () {
         });
     });
 
-    it.only('should respond with a 400 for an invalid id', function () {
+    it('should respond with a 400 for an invalid id', function () {
       return chai.request(app)
         .delete('/api/folders/NOT-A-VALID-ID')
         .set('Authorization', `Bearer ${token}`)
